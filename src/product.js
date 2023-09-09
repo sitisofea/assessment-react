@@ -1,39 +1,14 @@
 import React, { useState, useEffect } from "react";
-// import "bootstrap/dist/css/bootstrap.css";
 import "./index.css"
 
-import item1 from "./image/item1.png";
-import item2 from "./image/item2.png";
-import item3 from "./image/item3.png";
-import item4 from "./image/item4.png";
+
+import { useSelector, useDispatch } from "react-redux";
+import { addProduct, incrementStock, decrementStock, removeProduct } from "./redux/productSlice";
+
 
 function Product() {
-  const prod = [
-    {
-      prod_name:
-        "Brilliant Blue Botanical Stainless Steel Traveler Tumbler (16oz)",
-      stock: 5,
-      image: item1,
-    },
-    {
-      prod_name: "Brilliant Blue Stainless Steel Traveler Tumbler (16oz)",
-      stock: 6,
-      image: item2,
-    },
-    {
-      prod_name:
-        "Knockout Pink Botanical Stainless Steel Hydration Bottle (20oz)",
-      stock: 2,
-      image: item3,
-    },
-    {
-      prod_name: "Knockout Pink Stainless Steel Hydration Bottle (20oz)",
-      stock: 1,
-      image: item4,
-    },
-  ];
-
-  const [prods, setProds] = useState(prod);
+  const prods = useSelector((state) => state.initialState);
+  const dispatch = useDispatch();
   const [newProd, setNewProd] = useState({
     prod_name: "",
     stock: 0,
@@ -47,43 +22,24 @@ function Product() {
     }));
   };
 
+
+  
+
   const handleAddProduct = () => {
-    setProds((prevProds) => [...prevProds, newProd]);
+    dispatch(addProduct(newProd));
     setNewProd({ prod_name: "", stock: 0, image: "" });
   };
 
-  const incrementCounter = (index) => {
-    setProds((prevProds) => {
-      const updatedProds = [...prevProds];
-      updatedProds[index] = {
-        ...updatedProds[index],
-        stock: parseInt(updatedProds[index].stock) + 1,
-      };
-      console.log(updatedProds[index]);
-      return updatedProds;
-    });
+  const incrementCounter = (productName) => {
+    dispatch(incrementStock(productName));
   };
 
-  const decrementCounter = (index) => {
-    setProds((prevProds) => {
-      const updatedProds = [...prevProds];
-      if (updatedProds[index].stock > 0) {
-        updatedProds[index] = {
-          ...updatedProds[index],
-          stock: parseInt(updatedProds[index].stock) - 1,
-        };
-      }
-      console.log(updatedProds[index]);
-      return updatedProds;
-    });
+  const decrementCounter = (productName) => {
+    dispatch(decrementStock(productName));
   };
 
-  const removeProduct = (index) => {
-    setProds((prevProds) => {
-      const updatedProds = [...prevProds];
-      updatedProds.splice(index, 1);
-      return updatedProds;
-    });
+  const removeProduct = (productName) => {
+    dispatch(removeProduct(productName));
   };
 
   return (
@@ -96,10 +52,8 @@ function Product() {
           <tbody class="border border-black">
             <tr mx-auto>
               <td class="pl-4">
-                  <input type="file"></input>
+                <input type="file"></input>
               </td>
-
-
               <td class="border border-black px-4 py-2">
                 <input
                   type="text"
@@ -121,7 +75,7 @@ function Product() {
                 <br /> <br />
                 <button
                   type="submit"
-                  onClick={handleAddProduct}
+                  onClick={() => dispatch(handleAddProduct())}
                   class="text-gray-500 border border-gray-300 rounded px-1"
                 >
                   Submit
@@ -145,14 +99,14 @@ function Product() {
                 <td class="border border-black px-4">
                   <h5>{current.prod_name}</h5>
                   <button
-                    onClick={() => incrementCounter(index)}
+                    onClick={() => dispatch(incrementCounter(current.prod_name))}
                     class="border rounded px-py"
                   >
                     +
                   </button>
                   &nbsp;
                   <button
-                    onClick={() => decrementCounter(index)}
+                    onClick={() => dispatch(decrementCounter(current.prod_name))}
                     class="border rounded px-py"
                   >
                     -
@@ -172,7 +126,6 @@ function Product() {
         </table>
       </div>
     </div >
-
   );
 }
 
