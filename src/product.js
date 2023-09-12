@@ -7,13 +7,15 @@ import { addProduct, incrementStock, decrementStock, removeProduct } from "./red
 
 
 function Product() {
-  const prods = useSelector((state) => state.initialState);
+
   const dispatch = useDispatch();
+  const prods = useSelector((state) => state?.products);
   const [newProd, setNewProd] = useState({
     prod_name: "",
     stock: 0,
     image: "",
   });
+
 
   const handleInputChange = (e) => {
     setNewProd((prevNewProd) => ({
@@ -23,7 +25,7 @@ function Product() {
   };
 
 
-  
+
 
   const handleAddProduct = () => {
     dispatch(addProduct(newProd));
@@ -75,15 +77,15 @@ function Product() {
                 <br /> <br />
                 <button
                   type="submit"
-                  onClick={() => dispatch(handleAddProduct())}
-                  class="text-gray-500 border border-gray-300 rounded px-1"
+                  onClick={() => handleAddProduct()}
+                  class="text-gray-500 border border-gray-300 rounded px-2"
                 >
                   Submit
                 </button>
               </td>
             </tr>
           </tbody>
-          {prods.map((current, index) => (
+          {prods?.map((current, index) => (
             <tbody key={index}>
               <tr class="border border-black">
                 <div class="flex items-center justify-center h-full pl-4">
@@ -99,15 +101,16 @@ function Product() {
                 <td class="border border-black px-4">
                   <h5>{current.prod_name}</h5>
                   <button
-                    onClick={() => dispatch(incrementCounter(current.prod_name))}
-                    class="border rounded px-py"
+                    onClick={() =>
+                      incrementCounter(current.prod_name)}
+                    class="border rounded px-2 py-1"
                   >
                     +
                   </button>
                   &nbsp;
                   <button
-                    onClick={() => dispatch(decrementCounter(current.prod_name))}
-                    class="border rounded px-py"
+                    onClick={() => decrementCounter(current.prod_name)}
+                    class="border rounded px-2 py-1"
                   >
                     -
                   </button>
@@ -115,7 +118,7 @@ function Product() {
                   <br /> <br />
                   <button
                     onClick={() => removeProduct(index)}
-                    class="text-gray-500 border border-gray-300 rounded px-1"
+                    class="text-gray-500 border border-gray-300 rounded px-2"
                   >
                     Remove
                   </button>

@@ -1,5 +1,4 @@
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-// import "./App.css";
 import "./index.css"
 import Product from "./product";
 
