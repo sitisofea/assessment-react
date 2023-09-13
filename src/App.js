@@ -7,10 +7,10 @@ function App() {
     <div className="w-full h-screen">
       <Routes>
         <Route path="/" element={<Product />} />
-
       </Routes>
     </div>
   );
 }
 
 export default App;
+  

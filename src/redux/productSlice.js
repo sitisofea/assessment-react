@@ -39,10 +39,10 @@ export const productSlice = createSlice({
     incrementStock: (state, action) => {
       const index = state.findIndex((product) => product.prod_name === action.payload);
       state[index].stock = parseInt(state[index].stock, 10) + 1;
-    },    
+    },
     decrementStock: (state, action) => {
       const index = state.findIndex((product) => product.prod_name === action.payload);
-      if (state[index].stock >= 0) {
+      if (state[index].stock >= 1) {
         state[index].stock = parseInt(state[index].stock, 10) - 1;
       }
     },
